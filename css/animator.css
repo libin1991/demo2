@@ -1,0 +1,17 @@
+.chick .clipped-box {
+    display: none;
+    position: absolute;
+    right: 0px;
+    left: 0px;
+    height: 100%;
+    width: 100%;
+}
+
+.chick .clipped-box img {
+    position: absolute;
+    top: auto;
+    left: 0;
+    bottom: 0;
+    -webkit-transition: -webkit-transform 1.4s ease-in, background 0.3s ease-in;
+    transition: transform 1.4s ease-in;
+}

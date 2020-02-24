@@ -6,9 +6,10 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport"
 		content="width=device-width, initial-scale=1.0, maximum-scale=3, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-	<title>DEMO1</title>
+	<title>H5 测试页面</title>
+	<link rel="stylesheet" type="text/css" href="./css/index.min.css">
+	<link rel="stylesheet" type="text/css" href="./css/animator.css">
 	<script src="js/ball.js"></script>
-	<link rel="stylesheet" type="text/css" href="css/index.min.css">
 
 </head>
 
@@ -197,6 +198,34 @@
 							<p></p>
 						</div>
 					</div>
+
+					<div class="clipped-box">
+						<img class="clipped" src="img/jb1.png">
+						<img class="clipped" src="img/jb2.png">
+						<img class="clipped" src="img/jb3.png">
+						<img class="clipped" src="img/jb4.png">
+						<img class="clipped" src="img/jb5.png">
+						<img class="clipped" src="img/jb2.png">
+						<img class="clipped" src="img/jb3.png">
+						<img class="clipped" src="img/jb4.png">
+						<img class="clipped" src="img/jb5.png">
+						<img class="clipped" src="img/jb2.png">
+						<img class="clipped" src="img/jb3.png">
+						<img class="clipped" src="img/jb4.png">
+						<img class="clipped" src="img/jb5.png">
+						<img class="clipped" src="img/jb2.png">
+						<img class="clipped" src="img/jb3.png">
+						<img class="clipped" src="img/jb4.png">
+						<img class="clipped" src="img/jb5.png">
+						<img class="clipped" src="img/jb2.png">
+						<img class="clipped" src="img/jb3.png">
+						<img class="clipped" src="img/jb4.png">
+						<img class="clipped" src="img/jb5.png">
+						<img class="clipped" src="img/jb2.png">
+						<img class="clipped" src="img/jb3.png">
+						<img class="clipped" src="img/jb4.png">
+						<img class="clipped" src="img/jb5.png">
+					</div>
 				</div>
 			</div>
 			<!-- 叶子 -->
@@ -209,14 +238,67 @@
 		</div>
 	</div>
 	<script>
-
-
 		document.querySelector('#container').addEventListener('click', function playColor(e) {
 			var color = new colorBall()
 			color.fly(e.clientX, e.clientY)
 		});
+	</script>
+	<script>
+		function rand(min, max) {
+			return Math.floor(Math.random() * (max - min + 1)) + min;
+		}
 
-		 
+		function $(str) {
+			return document.querySelector(str);
+		}
+
+		function $$(str) {
+			return document.querySelectorAll(str);
+		}
+
+		var first = false,
+			clicked = false;
+		$('.chick').addEventListener('click', function (e) {
+			if (!clicked) {
+				clicked = true;
+				$('.chick .clipped-box').style.display = 'block';
+				// Apply to each clipped-box div.
+				[...$$('.chick .clipped-box img')].forEach(function (item, i) {
+					var self = item;
+					var v = rand(120, 90),
+						angle = rand(80, 89),
+						theta = (angle * Math.PI) / 180,
+						g = -9.8;
+					var t = 0,
+						z, r, nx, ny,
+						totalt = 10;
+					var negate = [1, -1, 0],
+						direction = negate[Math.floor(Math.random() * negate.length)];   // 方向
+					var randDeg = rand(-5, 10),
+						randScale = rand(0.9, 1.1),
+						randDeg2 = rand(30, 5);
+					self.style.transform = 'scale(' + randScale + ') skew(' + randDeg + 'deg) rotateZ(' + randDeg2 + 'deg)';
+					z = setInterval(function () {
+						var ux = (Math.cos(theta) * v) * direction;
+						var uy = (Math.sin(theta) * v) - ((-g) * t);
+						nx = (ux * t);
+						ny = (uy * t) + (0.25 * (g) * Math.pow(t, 2));
+						if (ny < -40) {
+							ny = -40;
+						}
+						self.style.bottom = (ny) + 'px';
+						self.style.left = (nx) + 'px';
+						t = t + 0.10;
+						//跳出循环
+						if (t > totalt) {
+							clicked = false;
+							first = true;
+							clearInterval(z);
+						}
+					}, 20);
+				});
+			}
+		});
 	</script>
 </body>
 
