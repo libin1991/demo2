@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第一个自定义组件</title>
+    <style>
+        * {
+            padding: 0px;
+            margin: 0px;
+        }
+
+        p {
+            color: blue;
+        }
+    </style>
+</head>
+
+<body>
+
+    <hello-world>
+        <p slot='heard'>我是组件插槽heard</p>
+        <!-- <p slot='body'>我是组件插槽body</p> -->
+    </hello-world>
+
+    <!--
+       组件：局部视图的封装
+    -->
+    <template id='hw-tpl'>
+        <!--组件的样式，只对template内部的标签有效-->
+        <style>
+            .card {
+                width: 600px;
+                height: 400px;
+                border: 1px solid red;
+                display: flex;
+            }
+
+            .heard {
+                width: 200px;
+                height: 100%;
+                background: pink;
+            }
+
+            .body {
+                flex: 1;
+                background: burlywood;
+            }
+        </style>
+        <div class="card">
+            <div class="heard">
+                <!--组件插槽-->
+                <slot name='heard'></slot>
+            </div>
+            <div class="body">
+                <slot name='body'>默认插槽文本</slot>
+            </div>
+        </div>
+    </template>
+    <script>
+        class helloWorld extends HTMLElement {
+            constructor() {
+                super();
+                // 得到组件的模板内容
+                const tpl = document.querySelector('#hw-tpl').content;
+                // 创建组件的根元素：影子DOM
+                const shadowRoot = this.attachShadow({ mode: 'open' });
+                // 将创建的节点添加到影子DOM中
+                shadowRoot.appendChild(tpl.cloneNode(true));
+            }
+        }
+        window.customElements.define('hello-world', helloWorld);
+    </script>
+</body>
+
+</html>

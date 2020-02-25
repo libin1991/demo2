@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第一个自定义组件</title>
+</head>
+
+<body>
+    <hello-world text='我是自定义一段文本'></hello-world>
+
+    <hello-world></hello-world>
+    <!--
+       组件：局部视图的封装
+    -->
+    <template id='hw-tpl'>
+        <!--组件的样式，只对template内部的标签有效-->
+        <style>
+            p {
+                padding: 10px;
+                background-color: #f40;
+                color: #fff;
+            }
+        </style>
+        <div>
+            <p> 第一个Web Components组件 </p>
+        </div>
+    </template>
+    <script>
+        class helloWorld extends HTMLElement {
+            constructor() {
+                super();
+                // 得到组件的模板内容
+                const tpl = document.querySelector('#hw-tpl').content;
+                // 创建组件的根元素：影子DOM
+                const shadowRoot = this.attachShadow({ mode: 'open' });
+                // 将创建的节点添加到影子DOM中
+                shadowRoot.appendChild(tpl.cloneNode(true));
+
+                if (this.getAttribute('text')) {
+                    shadowRoot.querySelector('p').innerText = this.getAttribute('text');
+                }
+            }
+        }
+        customElements.define('hello-world', helloWorld);
+    </script>
+</body>
+
+</html>
